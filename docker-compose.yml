@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: ./database  # Build from the current directory (local context)
+      dockerfile: Dockerfile  # Specify the Dockerfile (optional if named Dockerfile)
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+
+  app:
+    build:
+      context: ./src  # Build from the current directory (local context)
+      dockerfile: Dockerfile  # Specify the Dockerfile (optional if named Dockerfile)
+    container_name: python_app
+    restart: no
+    depends_on:
+      - postgres_db
+    environment:
+      DB_HOST: postgres_db
+      DB_PORT: 5432
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+      DB_NAME: mydatabase
+    volumes:
+      - .:/app
+    command: python main.py
+    networks:
+      - mynetwork
+
+volumes:
+  postgres_data:
+
+networks:
+  mynetwork:
+    driver: bridge
