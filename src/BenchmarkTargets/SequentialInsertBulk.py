@@ -5,7 +5,7 @@ from psycopg import sql
 from Database.PostgresRepository import PostgresDB
 
 
-class SequentialInsert:
+class SequentialInsertBulk:
 
     def __init__(self, database: PostgresDB, csv_file_path: str):
         self.db = database
@@ -44,7 +44,7 @@ class SequentialInsert:
                                 row["signup_date"],
                             )
                         )
-                        self.db.conn.commit()
+                    self.db.conn.commit()
             print("Data inserted successfully.")
         except Exception as ex:
             print(f"Error during insert: {ex}")

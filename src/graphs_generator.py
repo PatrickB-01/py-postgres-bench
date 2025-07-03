@@ -13,7 +13,7 @@ df = pd.read_csv(OUTPUT_DIR / "benchmark_results.csv")
 df["func"] = df["name"].apply(lambda x: x.split("::")[-1])
 
 # Convert numeric columns
-numeric_cols = ["mean", "stddev", "avg_rss_kb", "peak_rss_kb"]
+numeric_cols = ["mean", "stddev", "avg_rss_kb", "peak_rss_kb", "pg_avg_commits", "pg_avg_rollbacks", "pg_avg_deadlocks", "blks_read", "blks_hit", "blk_read_time", "blk_write_time"]
 df[numeric_cols] = df[numeric_cols].apply(pd.to_numeric, errors="coerce")
 
 # Set function as index for plotting

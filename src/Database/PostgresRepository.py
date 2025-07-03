@@ -15,6 +15,7 @@ class PostgresDB:
             "port": int(os.getenv("DB_PORT", 5432)),
         }
         self.conn = None
+        self.connect()
 
     def connect(self):
         self.conn = psycopg.connect(**self.conn_info, row_factory=dict_row)

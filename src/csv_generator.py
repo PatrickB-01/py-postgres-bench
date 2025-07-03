@@ -23,7 +23,7 @@ def generate_csv(filename, num_rows=100):
             )
 
 
-# To-Do have the number of rows from env
-DATA = Path.cwd() / "Data" 
-DATA.mkdir(exist_ok=True)
-generate_csv(DATA/ "data.csv", num_rows=1000)
+# # To-Do have the number of rows from env
+# DATA = Path.cwd() / "Data" 
+# DATA.mkdir(exist_ok=True)
+# generate_csv(DATA/ "data.csv", num_rows=1000)
