@@ -13,6 +13,7 @@ services:
       - "5432:5432"
     networks:
       - mynetwork
+      - spamnetwork
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:      
@@ -50,9 +51,8 @@ services:
       dockerfile: Dockerfile3  # Specify the Dockerfile (optional if named Dockerfile)
     container_name: spammer
     restart: no
-    depends_on:
-      db:
-        condition: service_healthy
+    # depends_on:
+    #   - app
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -63,7 +63,7 @@ services:
     volumes:
     - ./src:/app
     networks:
-      - mynetwork
+      - spamnetwork
 
   graphs:
     build:
@@ -71,9 +71,9 @@ services:
       dockerfile: Dockerfile2  # Specify the Dockerfile (optional if named Dockerfile)
     container_name: graph_generator
     restart: no
-    depends_on:
-      app:
-        condition: service_completed_successfully
+    # depends_on:
+    #   app:
+    #     condition: service_completed_successfully
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -90,4 +90,6 @@ volumes:
 
 networks:
   mynetwork:
+    driver: bridge
+  spamnetwork:
     driver: bridge

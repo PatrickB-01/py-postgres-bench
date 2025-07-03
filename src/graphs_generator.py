@@ -5,6 +5,8 @@ matplotlib.use("Agg")  # Use a non-GUI backend
 import matplotlib.pyplot as plt
 from pathlib import Path
 
+print("Graph are being generated..")
+
 OUTPUT_DIR = Path.cwd() / "output_data"
 # Load the benchmark CSV
 df = pd.read_csv(OUTPUT_DIR / "benchmark_results.csv")
