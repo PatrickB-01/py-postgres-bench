@@ -4,7 +4,7 @@ services:
     build:
       context: ./database  # Build from the current directory (local context)
       dockerfile: Dockerfile  # Specify the Dockerfile (optional if named Dockerfile)
-    restart: always
+    restart: "always"
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
@@ -28,7 +28,7 @@ services:
       context: ./src  # Build from the current directory (local context)
       dockerfile: Dockerfile  # Specify the Dockerfile (optional if named Dockerfile)
     container_name: python_app
-    restart: no
+    restart: "no"
     depends_on:
       db:
         condition: service_healthy
@@ -45,35 +45,38 @@ services:
     networks:
       - mynetwork
 
-  spammer:
-    build:
-      context: ./src  # Build from the current directory (local context)
-      dockerfile: Dockerfile3  # Specify the Dockerfile (optional if named Dockerfile)
-    container_name: spammer
-    restart: no
-    # depends_on:
-    #   - app
-    environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: myuser
-      DB_PASSWORD: mypassword
-      DB_NAME: mydatabase
-      TABLE_NAME: mytable
-    volumes:
-    - ./src:/app
-    networks:
-      - spamnetwork
+  # spammer:
+  #   build:
+  #     context: ./src  # Build from the current directory (local context)
+  #     dockerfile: Dockerfile3  # Specify the Dockerfile (optional if named Dockerfile)
+  #   container_name: spammer
+  #   restart: "no"
+  #   # depends_on:
+  #   #   - app
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   environment:
+  #     DB_HOST: db
+  #     DB_PORT: 5432
+  #     DB_USER: myuser
+  #     DB_PASSWORD: mypassword
+  #     DB_NAME: mydatabase
+  #     TABLE_NAME: mytable
+  #   volumes:
+  #   - ./src:/app
+  #   networks:
+  #     - spamnetwork
 
   graphs:
     build:
       context: ./src  # Build from the current directory (local context)
       dockerfile: Dockerfile2  # Specify the Dockerfile (optional if named Dockerfile)
     container_name: graph_generator
-    restart: no
-    # depends_on:
-    #   app:
-    #     condition: service_completed_successfully
+    restart: "no"
+    depends_on:
+      app:
+        condition: service_completed_successfully
     environment:
       DB_HOST: db
       DB_PORT: 5432

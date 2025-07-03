@@ -262,7 +262,7 @@ def run_tests():
 
 # Call the function to run everything
 if __name__ == "__main__":
-    csv_generator.generate_csv(DATA/ "data.csv", num_rows=1_000)
+    csv_generator.generate_csv(DATA/ "data.csv", num_rows=10_000)
     run_tests()
     database.close()
     sys.exit(0)
