@@ -114,6 +114,10 @@ def test_sequential_insert(benchmark):
     result = benchmark(target)
     stop()
 
+    print("Sequential insert. Sending a signal to stop!")
+    with open("/app/control/stop_spammer.flag", "w") as f:
+        f.write("STOP")
+
     avg_mem = sum(mem_samples) / len(mem_samples)
     peak_mem = max(mem_samples)
     averages = compute_average_stats()
@@ -134,6 +138,10 @@ def test_sequential_insert_bulk(benchmark):
     mem_samples, stop = memory_sampler()
     result = benchmark(target)
     stop()
+
+    print("Sequential insert bulk. Sending a signal to stop!")
+    with open("/app/control/stop_spammer.flag", "w") as f:
+        f.write("STOP")
 
     avg_mem = sum(mem_samples) / len(mem_samples)
     peak_mem = max(mem_samples)
@@ -156,6 +164,10 @@ def test_bulk_insertion(benchmark):
     result = benchmark(target)
     stop()
 
+    print("bulk insertion. Sending a signal to stop!")
+    with open("/app/control/stop_spammer.flag", "w") as f:
+        f.write("STOP")
+
     avg_mem = sum(mem_samples) / len(mem_samples)
     peak_mem = max(mem_samples)
     averages = compute_average_stats()
@@ -176,6 +188,10 @@ def test_multithreading(benchmark):
     mem_samples, stop = memory_sampler()
     result = benchmark(target)
     stop()
+
+    print("multithreading. Sending a signal to stop!")
+    with open("/app/control/stop_spammer.flag", "w") as f:
+        f.write("STOP")
 
     avg_mem = sum(mem_samples) / len(mem_samples)
     peak_mem = max(mem_samples)

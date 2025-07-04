@@ -41,32 +41,35 @@ services:
       TABLE_NAME: mytable
     volumes:
       - ./src:/app
+      - shared_data:/app/control
+
     command: python main.py
     networks:
       - mynetwork
 
-  # spammer:
-  #   build:
-  #     context: ./src  # Build from the current directory (local context)
-  #     dockerfile: Dockerfile3  # Specify the Dockerfile (optional if named Dockerfile)
-  #   container_name: spammer
-  #   restart: "no"
-  #   # depends_on:
-  #   #   - app
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
-  #   environment:
-  #     DB_HOST: db
-  #     DB_PORT: 5432
-  #     DB_USER: myuser
-  #     DB_PASSWORD: mypassword
-  #     DB_NAME: mydatabase
-  #     TABLE_NAME: mytable
-  #   volumes:
-  #   - ./src:/app
-  #   networks:
-  #     - spamnetwork
+  spammer:
+    build:
+      context: ./src  # Build from the current directory (local context)
+      dockerfile: Dockerfile3  # Specify the Dockerfile (optional if named Dockerfile)
+    container_name: spammer
+    restart: "no"
+    # depends_on:
+    #   - app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+      DB_NAME: mydatabase
+      TABLE_NAME: mytable
+    volumes:
+    - ./src:/app
+    - shared_data:/app/control
+    networks:
+      - spamnetwork
 
   graphs:
     build:
@@ -90,6 +93,13 @@ services:
 
 volumes:
   postgres_data:
+  shared_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./shared_data  # This will be a local folder on your machine
+
 
 networks:
   mynetwork:
