@@ -48,7 +48,7 @@ def spam_selects(database: PostgresDB, sleep_time: float = 0.01):
 
             time.sleep(sleep_time)
         except Exception as e:
-            print(f"Error during SELECT query: {e}")
+            print(f"Error during SELECT query: {e}", flush=True)
             break
 
     # Save results and exit
@@ -63,7 +63,7 @@ def spam_selects(database: PostgresDB, sleep_time: float = 0.01):
         f.write(f"Queries: {query_count}\n")
         f.write(f"Average response time: {avg:.6f} seconds\n")
 
-    print("Spammer received stop signal. Exiting...")
+    print("Spammer received stop signal. Exiting...", flush=True)
 
 
 def wait_for_db(max_retries=20, delay=1.0):
